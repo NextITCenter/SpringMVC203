@@ -12,6 +12,6 @@
 </head>
 <body>
     <p>${registerRequest.name}님 회원 가입을 완료했습니다.</p>
-    <p><a href="/">[첫 화면으로 이동]</a></p>
+    <p><a href="/?name=${registerRequest.name}">[첫 화면으로 이동]</a></p>
 </body>
 </html>
