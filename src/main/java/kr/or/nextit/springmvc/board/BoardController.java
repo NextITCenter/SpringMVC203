@@ -4,9 +4,7 @@ import kr.or.nextit.springmvc.common.PaginationInfo;
 import kr.or.nextit.springmvc.common.SearchVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,7 +18,6 @@ public class BoardController {
 
     @GetMapping("list")
     public String boardList(SearchVO vo, @RequestParam(value = "currentPageNo", defaultValue = "1") int currentPageNo, Model model) {
-
         PaginationInfo paginationInfo = new PaginationInfo();
         paginationInfo.setCurrentPageNo(currentPageNo);
         paginationInfo.setRecordCountPerPage(3);
@@ -39,4 +36,60 @@ public class BoardController {
         return "board/list";
     }
 
+    @GetMapping("view")
+    public String boardView(@RequestParam(value = "no") int searchNo, Model model) {
+        BoardVO vo = service.getBoard(searchNo);
+        model.addAttribute("board", vo);
+        return "board/view";
+    }
+
+    @GetMapping("add")
+    public String boardAddView() {
+        return "board/add";
+    }
+
+    @PostMapping("add")
+    public String boardAdd(BoardVO vo, Model model) {
+        vo.setWriter("a001");
+        int insertBoard = service.insertBoard(vo);
+        if (insertBoard > 0) {
+            // 등록 성공
+            return "redirect:/board/list";
+        } else {
+            // 등록 실패
+            model.addAttribute("msg", "등록 실패");
+            return "board/add";
+        }
+    }
+
+    @GetMapping("update")
+    public String boardUpdateView(@RequestParam("no") int searchNo, Model model) {
+        BoardVO vo = service.getBoard(searchNo);
+        model.addAttribute("board", vo);
+        return "board/update";
+    }
+
+    @PostMapping("update")
+    public String boardUpdate(BoardVO vo, Model model) {
+        vo.setWriter("a001");
+        int updated = service.updateBoard(vo);
+        if (updated > 0) {
+            // 등록 성공
+            return "redirect:/board/list";
+        } else {
+            // 등록 실패
+            model.addAttribute("msg", "수정 실패");
+            return "/board/update";
+        }
+    }
+    @GetMapping("delete")
+    public String boardDelete(@RequestParam(value = "no") int deleteNo, Model model) {
+        int deletedBoard = service.deleteBoard(deleteNo);
+        if (deletedBoard > 0) {
+            return "redirect:/board/list";
+        } else {
+            model.addAttribute("msg", "삭제 실패");
+            return "board/update";
+        }
+    }
 }
