@@ -14,6 +14,11 @@
 <h2>회원 정보 입력</h2>
 <form action="step3" method="post">
     <p>
+        <label>아이디:<br>
+            <input type="text" name="id" id="id" value="${registerRequest.id}">
+        </label>
+    </p>
+    <p>
         <label>이메일:<br>
             <input type="email" name="email" id="email" value="${registerRequest.email}">
         </label>

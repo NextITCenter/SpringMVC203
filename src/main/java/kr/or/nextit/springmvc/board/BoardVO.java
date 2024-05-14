@@ -1,0 +1,16 @@
+package kr.or.nextit.springmvc.board;
+
+import lombok.Data;
+
+import java.time.LocalDate;
+
+@Data
+public class BoardVO {
+	private int no;
+	private String writer;
+	private String title;
+	private String content;
+	private LocalDate createDate;
+	private LocalDate modifyDate;
+	private int hits;
+}

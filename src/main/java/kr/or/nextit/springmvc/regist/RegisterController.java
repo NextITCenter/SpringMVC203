@@ -1,7 +1,11 @@
 package kr.or.nextit.springmvc.regist;
 
+import kr.or.nextit.springmvc.exception.DuplicateMemberException;
 import kr.or.nextit.springmvc.member.Member;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +16,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/register/")
 @RequiredArgsConstructor
+@Slf4j
 public class RegisterController {
     private final RegisterService service;
 
@@ -21,7 +26,7 @@ public class RegisterController {
     }
     @PostMapping("step2")
     public String step2(boolean agree) {
-        System.out.println("agree: " + agree);
+        log.debug("agree: {}", agree);
         if (agree){
             return "register/step2";
         }
@@ -29,11 +34,13 @@ public class RegisterController {
     }
     @PostMapping("step3")
     public String step3(@ModelAttribute RegisterRequest register) {
-        System.out.println("이메일: " + register.getEmail());
-        System.out.println("이름: " + register.getName());
-        System.out.println("패스워드: " + register.getPassword());
-        System.out.println("패스워드 확인: " + register.getConfirmPassword());
-        return "register/step3";
+        // 회원 등록 서비스
+        try {
+            service.register(register);
+            return "register/step3";
+        } catch (DuplicateMemberException e) {
+            return "register/step2";
+        }
     }
 
     @GetMapping("list")
