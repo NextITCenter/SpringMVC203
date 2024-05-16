@@ -49,8 +49,8 @@ public class LoginController {
         HashMap<String, String> map = new HashMap<>();
         Member member = service.findMember(login);
         if (member != null) {
-            map.put("msg", "success");
             session.setAttribute("member", member);
+            map.put("msg", "success");
         } else {
             map.put("msg", "failure");
         }
