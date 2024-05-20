@@ -52,7 +52,11 @@ public class LoginController {
         Member member = service.findMember(login);
         if (member != null) {
             session.setAttribute("member", member);
-            map.put("msg", location);
+            if (location != null && !"".equals(location)) {
+                map.put("msg", location);
+            } else {
+                map.put("msg", "/");
+            }
         } else {
             map.put("msg", "failure");
         }

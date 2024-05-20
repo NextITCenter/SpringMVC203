@@ -70,7 +70,7 @@
 		WHERE
  			NO = #{no}
 	</select>
-	<insert id="insertBoard" parameterType="boardVO">
+	<insert id="insertBoard" parameterType="boardVO" useGeneratedKeys="true" keyColumn="no" keyProperty="no">
 		INSERT INTO BOARD
 			(WRITER, TITLE, CONTENT)
 		VALUES

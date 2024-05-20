@@ -19,4 +19,12 @@ public class FileService {
         }
         mapper.saveFiles(files);
     }
+
+    public List<FileVO> selectFileList(int boardNo) {
+        return mapper.selectFileList(boardNo);
+    }
+
+    public FileVO selectFile(int id) {
+        return mapper.selectFile(id);
+    }
 }
