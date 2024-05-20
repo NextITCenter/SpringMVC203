@@ -8,11 +8,12 @@
 <body>
 <c:choose>
     <c:when test="${empty sessionScope.member}">
-        <a href="/login">로그인</a>
+        <a href="<c:url value="/login"/>">로그인</a>
     </c:when>
     <c:otherwise>
-        <a href="/logout">로그아웃</a>
+        <a href="<c:url value="/logout"/>">로그아웃</a>
     </c:otherwise>
 </c:choose>
+<a href="<c:url value="/board/list"/>">게시판</a>
 </body>
 </html>

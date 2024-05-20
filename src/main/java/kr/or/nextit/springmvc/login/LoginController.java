@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -18,7 +19,8 @@ public class LoginController {
     private final LoginService service;
 
     @GetMapping("/login")
-    public String loginView() {
+    public String loginView(String location, Model model) {
+        model.addAttribute("location", location);
         return "common/login";
     }
 
@@ -42,15 +44,15 @@ public class LoginController {
 
     @PostMapping("/ajaxLogin")
     @ResponseBody
-    public Map<String, String> ajaxLogin(@RequestBody LoginRequest login, HttpSession session) {
+    public Map<String, String> ajaxLogin(LoginRequest login, @RequestParam(required = false) String location, HttpSession session) {
         // 성공할 경우 {"msg": "success"}
         // 실패할 경우 {"msg": "failure"}
-        log.debug("login: {}", login);
+        log.debug("location: {}", location);
         HashMap<String, String> map = new HashMap<>();
         Member member = service.findMember(login);
         if (member != null) {
             session.setAttribute("member", member);
-            map.put("msg", "success");
+            map.put("msg", location);
         } else {
             map.put("msg", "failure");
         }

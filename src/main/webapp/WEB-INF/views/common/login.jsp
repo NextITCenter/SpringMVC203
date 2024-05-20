@@ -16,7 +16,7 @@
 </head>
 <body>
 <h2>로그인</h2>
-<form action="/login" method="post" id="loginForm">
+<form action="/login" method="post" id="loginForm" enctype="application/x-www-form-urlencoded">
 	<label>아이디:
 		<input type="text" name="id" value="${cookie.savedId.value }" placeholder="ID를 입력하세요.">
 	</label>
@@ -26,28 +26,27 @@
 	<label>
 		<input type="checkbox" value="true"> 아이디 저장
 	</label>
+	<input type="hidden" name="location" value="${location}">
 	<div id="log">${msg}</div>
 	<button type="button" id="loginBtn">로그인</button>
 	<button type="button">취소</button>
 </form>
 <script>
 	document.querySelector("#loginBtn").addEventListener("click", evt => {
+		const loginForm = document.querySelector("#loginForm")
+		// javascript에서 지원하는 FormData는 Content-Type을 multipart/form-data 형식으로 전송
+		// payload를 통해 전달함
+		let formData = new FormData(loginForm)
 		fetch("/ajaxLogin", {
 			method: "POST",
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				"id": document.querySelector("input[name=id]").value,
-				"password": document.querySelector("input[name=password]").value
-			})
+			body: formData
 		})
 		.then(response => response.json())
 		.then(data => {
-			if (data.msg === "success") {
-				location.href = "/"
-			} else {
+			if (data.msg === "failure") {
 				document.querySelector("#log").textContent = "로그인 실패!"
+			} else {
+				location.href = data.msg;
 			}
 		})
 	})

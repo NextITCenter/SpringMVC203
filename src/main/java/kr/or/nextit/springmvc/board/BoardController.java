@@ -5,6 +5,7 @@ import kr.or.nextit.springmvc.common.SearchVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -49,8 +50,10 @@ public class BoardController {
     }
 
     @PostMapping("add")
-    public String boardAdd(BoardVO vo, Model model) {
-        vo.setWriter("a001");
+    public String boardAdd(BoardVO vo, Model model, List<MultipartFile> files) {
+        /*
+        스프링은 첨부파일을 MultipartFile을 지원한다.
+         */
         int insertBoard = service.insertBoard(vo);
         if (insertBoard > 0) {
             // 등록 성공
