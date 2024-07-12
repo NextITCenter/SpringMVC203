@@ -39,7 +39,7 @@ public class BoardController {
     public String boardList(SearchVO vo, @RequestParam(value = "currentPageNo", defaultValue = "1") int currentPageNo, Model model) {
         PaginationInfo paginationInfo = new PaginationInfo();
         paginationInfo.setCurrentPageNo(currentPageNo);
-        paginationInfo.setRecordCountPerPage(3);
+        paginationInfo.setRecordCountPerPage(10);
         paginationInfo.setPageSize(5);
 
         int totalCount = service.getBoardListCount(vo);

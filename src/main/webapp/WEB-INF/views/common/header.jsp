@@ -15,6 +15,7 @@
 		padding-right: 100px;
 	}
 </style>
+	<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 </head>
 <body>
 <header>
